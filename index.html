@@ -4,71 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Calculator</title>
-    
-    <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#0f3460">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Calculator">
-    
-    <!-- Manifest Link -->
     <link rel="manifest" href="manifest.json">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Install Button (hidden by default) -->
+    <button id="installButton" class="install-btn" style="display: none;">
+        📲 Install App
+    </button>
+
     <div class="calculator">
         <div class="display" id="display">0</div>
         <div class="buttons">
-            <!-- Row 1 -->
             <button class="btn clear" onclick="clearDisplay()">AC</button>
             <button class="btn operator" onclick="deleteLast()">⌫</button>
             <button class="btn operator" onclick="calculatePercentage()">%</button>
             <button class="btn operator" onclick="appendValue('/')">/</button>
 
-            <!-- Row 2 -->
             <button class="btn operator" onclick="calculateSquareRoot()">√</button>
             <button class="btn" onclick="appendValue('7')">7</button>
             <button class="btn" onclick="appendValue('8')">8</button>
             <button class="btn" onclick="appendValue('9')">9</button>
 
-            <!-- Row 3 -->
             <button class="btn operator" onclick="calculatePower()">xʸ</button>
             <button class="btn" onclick="appendValue('4')">4</button>
             <button class="btn" onclick="appendValue('5')">5</button>
             <button class="btn" onclick="appendValue('6')">6</button>
 
-            <!-- Row 4 -->
             <button class="btn operator" onclick="toggleSign()">+/-</button>
             <button class="btn" onclick="appendValue('1')">1</button>
             <button class="btn" onclick="appendValue('2')">2</button>
             <button class="btn" onclick="appendValue('3')">3</button>
 
-            <!-- Row 5 -->
             <button class="btn" onclick="appendValue('0')">0</button>
             <button class="btn" onclick="appendValue('.')">.</button>
             <button class="btn operator" onclick="appendValue('*')">×</button>
             <button class="btn operator" onclick="appendValue('+')">+</button>
 
-            <!-- Row 6 -->
             <button class="btn operator" onclick="appendValue('-')">-</button>
             <button class="btn equal" onclick="calculate()">=</button>
         </div>
     </div>
 
-    <!-- Service Worker Registration -->
     <script>
+        // Register Service Worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js')
-                .then((registration) => {
-                    console.log('Service Worker registered:', registration);
-                })
-                .catch((error) => {
-                    console.log('Service Worker registration failed:', error);
-                });
+                .then(reg => console.log('SW registered'))
+                .catch(err => console.log('SW failed', err));
         }
+
+        // In-App Install Button Logic
+        let deferredPrompt;
+        const installButton = document.getElementById('installButton');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing
+            e.preventDefault();
+            // Save the event for later use
+            deferredPrompt = e;
+            // SHOW the install button
+            installButton.style.display = 'block';
+        });
+
+        installButton.addEventListener('click', async () => {
+            if (!deferredPrompt) {
+                alert('Install option not available. Try Chrome menu → Add to Home screen.');
+                return;
+            }
+            // Show the install prompt
+            deferredPrompt.prompt();
+            // Wait for user choice
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`Install outcome: ${outcome}`);
+            // Hide button after use
+            installButton.style.display = 'none';
+            deferredPrompt = null;
+        });
+
+        // Also hide button if app is already installed
+        window.addEventListener('appinstalled', () => {
+            installButton.style.display = 'none';
+            console.log('App installed successfully!');
+        });
     </script>
     
     <script src="script.js"></script>
 </body>
-</html>
+                </html>

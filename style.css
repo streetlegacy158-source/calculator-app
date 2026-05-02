@@ -73,6 +73,7 @@ body {
     background: #0f3460;
     border: 2px solid #e94560;
     color: #e94560;
+    grid-column: span 2;
 }
 
 .equal:hover {
@@ -87,9 +88,4 @@ body {
 
 .clear:hover {
     background: #3d2563;
-}
-
-/* New: Full-width equals button */
-.full-width {
-    grid-column: span 4;
 }

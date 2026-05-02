@@ -1,6 +1,5 @@
-const CACHE_NAME = 'calculator-app-v1';
+const CACHE_NAME = 'calculator-app-v2';
 
-// Files to cache for offline use
 const FILES_TO_CACHE = [
     'index.html',
     'style.css',
@@ -8,7 +7,6 @@ const FILES_TO_CACHE = [
     'manifest.json'
 ];
 
-// Install event - cache all essential files
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME)
@@ -22,7 +20,6 @@ self.addEventListener('install', (event) => {
     );
 });
 
-// Activate event - clean old caches
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => {
@@ -38,14 +35,11 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(event.request)
             .then((cachedResponse) => {
-                // Return cached file or fetch from network
                 return cachedResponse || fetch(event.request).then((networkResponse) => {
-                    // Cache new requests for future offline use
                     return caches.open(CACHE_NAME).then((cache) => {
                         cache.put(event.request, networkResponse.clone());
                         return networkResponse;
@@ -53,7 +47,6 @@ self.addEventListener('fetch', (event) => {
                 });
             })
             .catch(() => {
-                // Offline fallback for HTML requests
                 if (event.request.headers.get('accept').includes('text/html')) {
                     return caches.match('index.html');
                 }

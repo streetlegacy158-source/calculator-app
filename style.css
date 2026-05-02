@@ -13,6 +13,34 @@ body {
     background: linear-gradient(135deg, #1a1a2e, #16213e);
 }
 
+/* ========== INSTALL BUTTON ========== */
+.install-btn {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 1000;
+    background: #e94560;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 25px;
+    box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4);
+    cursor: pointer;
+    animation: pulse 2s infinite;
+}
+
+.install-btn:active {
+    transform: scale(0.95);
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4); }
+    50% { box-shadow: 0 4px 20px rgba(233, 69, 96, 0.7); }
+}
+
+/* ========== CALCULATOR ========== */
 .calculator {
     background: #0f3460;
     border-radius: 20px;
@@ -88,43 +116,4 @@ body {
 
 .clear:hover {
     background: #3d2563;
-}
-/* ========== INSTALL BUTTON ========== */
-.install-btn {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    z-index: 1000;
-    background: #e94560;
-    color: white;
-    border: none;
-    padding: 12px 18px;
-    font-size: 1rem;
-    font-weight: bold;
-    border-radius: 25px;
-    box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4);
-    cursor: pointer;
-    animation: pulse 2s infinite;
-    transition: all 0.3s ease;
-}
-
-.install-btn:hover {
-    background: #c73e54;
-    transform: scale(1.05);
-}
-
-.install-btn:active {
-    transform: scale(0.95);
-}
-
-@keyframes pulse {
-    0% {
-        box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4);
-    }
-    50% {
-        box-shadow: 0 4px 20px rgba(233, 69, 96, 0.7);
-    }
-    100% {
-        box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4);
-    }
 }

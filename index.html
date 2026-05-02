@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Install Button (hidden by default) -->
+    <!-- Install Button (hidden by default, shown when PWA is installable) -->
     <button id="installButton" class="install-btn" style="display: none;">
         📲 Install App
     </button>
@@ -63,30 +63,23 @@
         const installButton = document.getElementById('installButton');
 
         window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent the mini-infobar from appearing
             e.preventDefault();
-            // Save the event for later use
             deferredPrompt = e;
-            // SHOW the install button
             installButton.style.display = 'block';
         });
 
         installButton.addEventListener('click', async () => {
             if (!deferredPrompt) {
-                alert('Install option not available. Try Chrome menu → Add to Home screen.');
+                alert('Install option not available right now. Try Chrome menu → Add to Home screen.');
                 return;
             }
-            // Show the install prompt
             deferredPrompt.prompt();
-            // Wait for user choice
             const { outcome } = await deferredPrompt.userChoice;
-            console.log(`Install outcome: ${outcome}`);
-            // Hide button after use
+            console.log('Install outcome:', outcome);
             installButton.style.display = 'none';
             deferredPrompt = null;
         });
 
-        // Also hide button if app is already installed
         window.addEventListener('appinstalled', () => {
             installButton.style.display = 'none';
             console.log('App installed successfully!');
@@ -95,4 +88,4 @@
     
     <script src="script.js"></script>
 </body>
-                </html>
+</html>

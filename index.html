@@ -48,10 +48,11 @@
             <button class="btn" onclick="appendValue('0')">0</button>
             <button class="btn" onclick="appendValue('.')">.</button>
             <button class="btn operator" onclick="appendValue('*')">×</button>
-            <button class="btn operator" onclick="appendValue('-')">-</button>
+            <button class="btn operator" onclick="appendValue('+')">+</button>
 
             <!-- Row 6 -->
-            <button class="btn equal full-width" onclick="calculate()">=</button>
+            <button class="btn operator" onclick="appendValue('-')">-</button>
+            <button class="btn equal" onclick="calculate()">=</button>
         </div>
     </div>
 
